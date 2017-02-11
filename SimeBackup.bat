@@ -2,28 +2,31 @@
 color 0A
 title SimeBackup
 
+
 :cleanvars
 set src=
 set dst=
 set incl_sys=
 set excl_custom=
 
-
 :label
 echo.
-echo     =====     SimeBackup     =====
-echo     ====         v1.0         ====
-echo     ===       11.02.2017       ===
+echo         ==============================
+echo         ======    SimeBackup    ======
+echo         ====         v1.1         ====
+echo         ===       11.02.2017       ===
 echo.
 echo.
 
 :setup
-echo     ===  Directory selection   ===
+echo.
+echo         ===  Directory selection   ===
 echo.
 set /p src= Enter backup source directory: 
 set /p dst= Enter backup destination directory: 
 echo.
-echo     ===    Folder exclusion    ===
+echo.
+echo         ===    Folder exclusion    ===
 echo.
 set /p incl_sys= Include system folders? (y/n, default no): 
 echo Exclude any folders? Leave empty if no, format: "folder1" "folder2" ...
@@ -42,10 +45,11 @@ if %incl_sys%==y (
 echo.
 echo excluding: %excl%
 echo.
-echo     ===      Begin Backup      ===
 echo.
-color 0A
+echo         ===      Begin Backup      ===
+echo.
 echo Careful! All data in %dst% could be deleted!
+echo.
 set /p continue= Press Enter to begin backup, type to abort... 
 color 0A
 if defined continue goto abort
@@ -53,7 +57,7 @@ if defined continue goto abort
 :preparelog
 for /f "tokens=2-4 delims=/. " %%a in ('date /t') do (set dt=%%c.%%b.%%a)
 for /f "tokens=1-2 delims=/:" %%a in ('time /t') do (set tm=%%a.%%b)
-set logf=%dt%_%tm%.log
+set logf=backup_log_%dt%_%tm%.log
 
 
 :copy
@@ -61,26 +65,40 @@ robocopy %src% %dst% * /mir /copy:DATO /dcopy:T /mon:0 /xd %excl% /r:10 /w:10 /v
 
 
 :movelog
+if not defined dst goto nodst
 set logdir="%dst%/Backup logs"
 if not exist %logdir% mkdir %logdir%
 robocopy %cd% %logdir% %logf% /mov /a-:SH /ns /nc /nfl /ndl /np /njh /njs
-rem move %cd%/%logf% %logdir%
+goto restart
+
+:nodst
+echo.
+echo.
+echo         ===     Backup failed      ===
+echo.
+echo No destination directory specified.
+echo.
+del "%cd%\%logf%"
+pause
 goto restart
 
 :abort
 echo.
-echo     ===     Backup aborted     ===
+echo.
+echo         ===     Backup aborted     ===
 echo.
 echo To complete the backup, don't type any characters on the "Press Enter to begin backup" prompt.
+echo.
+pause
+goto restart
+
+:restart
 echo Restarting...
 echo.
 echo.
 echo.
 goto cleanvars
 
-:restart
-pause
-goto cleanvars
-
 :end
 pause
+exit
