@@ -13,12 +13,16 @@ set excl_custom=
 echo.
 echo         ==============================
 echo         ======    SimeBackup    ======
-echo         ====         v1.1         ====
-echo         ===       11.02.2017       ===
+echo         ====         v1.2         ====
+echo         ===       12.02.2017       ===
 echo.
 echo.
+echo.
+echo                  Please note:
+echo SimeBackup must be run as administrator to work.
 
 :setup
+echo.
 echo.
 echo         ===  Directory selection   ===
 echo.
@@ -49,9 +53,9 @@ echo.
 echo         ===      Begin Backup      ===
 echo.
 echo Careful! All data in %dst% could be deleted!
+timeout 4 > nul
 echo.
 set /p continue= Press Enter to begin backup, type to abort... 
-color 0A
 if defined continue goto abort
 
 :preparelog
@@ -61,14 +65,25 @@ set logf=backup_log_%dt%_%tm%.log
 
 
 :copy
-robocopy %src% %dst% * /mir /copy:DATO /dcopy:T /mon:0 /xd %excl% /r:10 /w:10 /v /unilog+:%logf% /tee
+echo robocopy "%src%\\" "%dst%\\" * /mir /copy:DATO /dcopy:T /xd %excl% /r:10 /w:10 /v /unilog+:%logf% /tee
+robocopy "%src%\\" "%dst%\\" * /mir /copy:DATO /dcopy:T /xd %excl% /r:10 /w:10 /v /unilog+:%logf% /tee
 
 
 :movelog
 if not defined dst goto nodst
 set logdir="%dst%/Backup logs"
 if not exist %logdir% mkdir %logdir%
-robocopy %cd% %logdir% %logf% /mov /a-:SH /ns /nc /nfl /ndl /np /njh /njs
+robocopy "%cd%" %logdir% %logf% /mov /a-:SH > nul
+rem echo.
+rem echo.
+rem echo Fixing folder icons...
+rem cmd /c attrib +r %dst%\* /s /d > nul
+rem echo halfway done...
+rem cmd /c attrib -r %dst%\* /s > nul
+rem echo done.
+echo.
+echo.
+pause
 goto restart
 
 :nodst
