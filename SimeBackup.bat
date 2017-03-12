@@ -13,8 +13,8 @@ set excl_custom=
 echo.
 echo         ==============================
 echo         ======    SimeBackup    ======
-echo         ====         v1.3         ====
-echo         ===       23.02.2017       ===
+echo         ====         v1.4         ====
+echo         ===       12.03.2017       ===
 echo.
 echo.
 echo.
@@ -65,7 +65,7 @@ set logf=backup_log_%dt%_%tm%.log
 
 
 :copy
-robocopy "%src%\\" "%dst%\\" * /xf "%dst%\desktop.ini" /xd %excl% /mir /copy:DATO /dcopy:T /r:10 /w:10 /v /unilog+:%logf% /tee
+robocopy "%src%\\" "%dst%\\" * /xf "%src%\pagefile.sys" "%dst%\desktop.ini" /xd %excl% /mir /copy:DATO /dcopy:T /r:10 /w:10 /v /unilog+:%logf% /tee
 
 
 :movelog
