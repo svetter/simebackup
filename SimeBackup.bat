@@ -13,8 +13,8 @@ set excl_custom=
 echo.
 echo         ==============================
 echo         ======    SimeBackup    ======
-echo         ====         v1.4         ====
-echo         ===       12.03.2017       ===
+echo         ====         v1.5         ====
+echo         ===       20.05.2018       ===
 echo.
 echo.
 echo.
@@ -39,7 +39,7 @@ set /p excl_custom= Exclude these folders:
 set excl_temp="Backup logs"
 if defined excl_custom set excl_temp=%excl_temp% %excl_custom%
 
-set excl="System Volume Information" "$RECYCLE.BIN" %excl_temp%
+set excl="System Volume Information" "$RECYCLE.BIN" ".bzvol" %excl_temp%
 if not defined incl_sys goto cont
 if %incl_sys%==y (
 	set excl=%excl_temp%
