@@ -13,8 +13,8 @@ set excl_custom=
 echo.
 echo         ==============================
 echo         ======    SimeBackup    ======
-echo         ====         v1.5         ====
-echo         ===       20.05.2018       ===
+echo         ====         v1.6         ====
+echo         ===       02.08.2018       ===
 echo.
 echo.
 echo.
@@ -39,7 +39,7 @@ set /p excl_custom= Exclude these folders:
 set excl_temp="Backup logs"
 if defined excl_custom set excl_temp=%excl_temp% %excl_custom%
 
-set excl="System Volume Information" "$RECYCLE.BIN" ".bzvol" %excl_temp%
+set excl="System Volume Information" "$RECYCLE.BIN" "Temp" ".bzvol" ".tmp.drivedownload" %excl_temp%
 if not defined incl_sys goto cont
 if %incl_sys%==y (
 	set excl=%excl_temp%
@@ -65,7 +65,7 @@ set logf=backup_log_%dt%_%tm%.log
 
 
 :copy
-robocopy "%src%\\" "%dst%\\" * /xf "%src%\pagefile.sys" "%dst%\desktop.ini" /xd %excl% /mir /copy:DATO /dcopy:T /r:10 /w:10 /v /unilog+:%logf% /tee
+robocopy "%src%\\" "%dst%\\" * /xf "%src%\pagefile.sys" "%dst%\desktop.ini" /xd %excl% /mir /copy:DATO /dcopy:T /r:6 /w:5 /v /unilog+:%logf% /tee
 
 
 :movelog
