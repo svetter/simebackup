@@ -13,8 +13,8 @@ set excl_custom=
 echo.
 echo         ==============================
 echo         ======    SimeBackup    ======
-echo         ====         v1.7         ====
-echo         ===       08.02.2019       ===
+echo         ====         v1.8         ====
+echo         ===       06.12.2019       ===
 echo.
 echo.
 echo.
@@ -25,6 +25,10 @@ echo SimeBackup must be run as administrator to work.
 echo.
 echo.
 echo         ===  Directory selection   ===
+echo.
+echo Enter source and destination directories without quotes.
+echo Use backslashes (\), no backslash at the end.
+echo Example: D: or E:\Music
 echo.
 set /p src= Enter backup source directory: 
 set /p dst= Enter backup destination directory: 
@@ -52,7 +56,7 @@ echo.
 echo.
 echo         ===      Begin Backup      ===
 echo.
-echo Careful! All data in %dst% could be deleted!
+echo Careful! All data in "%dst%" could be deleted!
 timeout 4 > nul
 echo.
 set /p continue= Press Enter to begin backup, type to abort... 
