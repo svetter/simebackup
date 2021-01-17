@@ -13,8 +13,8 @@ set excl_custom=
 echo.
 echo         ==============================
 echo         ======    SimeBackup    ======
-echo         ====         v1.8         ====
-echo         ===       06.12.2019       ===
+echo         ====         v1.9         ====
+echo         ===       17.01.2021       ===
 echo.
 echo.
 echo.
@@ -43,7 +43,7 @@ set /p excl_custom= Exclude these folders:
 set excl_temp="Backup logs"
 if defined excl_custom set excl_temp=%excl_temp% %excl_custom%
 
-set excl="System Volume Information" "$RECYCLE.BIN" "WindowsApps" "Temp" ".bzvol" ".tmp.drivedownload" %excl_temp%
+set excl="System Volume Information" "$RECYCLE.BIN" "WindowsApps" "Temp" ".bzvol" ".tmp.drivedownload" "CacheClip" %excl_temp%
 if not defined incl_sys goto cont
 if %incl_sys%==y (
 	set excl=%excl_temp%
